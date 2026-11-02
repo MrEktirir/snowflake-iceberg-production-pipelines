@@ -265,7 +265,7 @@ def run_lakeformation_setup(*, root: Path | None, dry_run: bool) -> None:
     except ClientError as e:
         err = e.response.get("Error", {})
         code, msg = err.get("Code", ""), err.get("Message", "")
-        if code == "InvalidInputException" and "already" in msg.lower():
+        if code == "AlreadyExistsException" or (code == "InvalidInputException" and "already" in msg.lower()):
             print(
                 f"info: S3 location likely already registered: {msg}", file=sys.stderr
             )
